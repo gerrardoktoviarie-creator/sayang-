@@ -1,0 +1,164 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>website cinta 💘</title>
+  <style>
+    body{
+      margin:0;
+      font-family: "Comic Sans MS", cursive, sans-serif;
+      background: pink;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+      color:#fff;
+    }
+    .card{
+      background:#fff0f5;
+      border-radius:25px;
+      padding:30px;
+      text-align:center;
+      box-shadow:0 10px 30px rgba(0,0,0,0.2);
+      max-width:400px;
+      animation:pop 0.6s ease;
+    }
+    @keyframes pop{
+      0%{transform:scale(0.7);opacity:0;}
+      100%{transform:scale(1);opacity:1;}
+    }
+    h1{
+      color:#d63384;
+      margin-bottom:15px;
+    }
+    .cta{
+      background:#ff4d88;
+      color:#fff;
+      border:none;
+      padding:12px 20px;
+      border-radius:20px;
+      cursor:pointer;
+      font-size:16px;
+      font-weight:bold;
+      transition:transform 0.2s;
+    }
+    .cta:hover{
+      transform:scale(1.05);
+    }
+
+    /* Modal */
+    .backdrop{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.4);
+      display:none;
+      justify-content:center;
+      align-items:center;
+    }
+    .backdrop.show{display:flex;}
+    .modal{
+      background:#fff;
+      padding:25px;
+      border-radius:25px;
+      text-align:center;
+      box-shadow:0 8px 20px rgba(0,0,0,.25);
+      width:320px;
+      animation:pop 0.6s ease;
+    }
+    .modal h2{
+      color:#e75480;
+      margin-bottom:15px;
+    }
+    .btns{
+      position:relative;
+      height:120px;
+      display:flex;
+      justify-content:center;
+      align-items:flex-end;
+      gap:20px;
+    }
+    .btn{
+      border:none;
+      padding:12px 20px;
+      border-radius:20px;
+      font-weight:bold;
+      cursor:pointer;
+      transition:all 0.3s ease;
+    }
+    .btn.yes{
+      background:#ff4d88;
+      color:#fff;
+      font-size:16px;
+      box-shadow:0 4px 12px rgba(255,77,136,0.4);
+    }
+    .btn.no{
+      background:#f8f9fa;
+      color:#333;
+      position:absolute;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>hiii kamu! 💖</h1>
+    <button id="show" class="cta">✨ klik untuk lihat</button>
+  </div>
+
+  <div id="backdrop" class="backdrop">
+    <div class="modal">
+      <h2>maukah kamu menjadi pacarkuu? 🥰</h2>
+      <div class="btns" id="btnWrap">
+        <button id="yes" class="btn yes">iyaaaa!</button>
+        <button id="no" class="btn no">gaa dulu....</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const show=document.getElementById('show');
+    const backdrop=document.getElementById('backdrop');
+    const yes=document.getElementById('yes');
+    const no=document.getElementById('no');
+    const wrap=document.getElementById('btnWrap');
+
+    show.addEventListener('click',()=>{
+      backdrop.classList.add('show');
+    });
+    backdrop.addEventListener('click',(e)=>{
+      if(e.target===backdrop){backdrop.classList.remove('show');}
+    });
+
+    // Gerakkan tombol "gaa dulu...." secara acak tapi tidak menutupi tombol "iyaaaa!"
+    function moveNoButton(){
+      const area=wrap.getBoundingClientRect();
+      const yesBtn=yes.getBoundingClientRect();
+      const maxX=area.width-no.offsetWidth;
+      const maxY=area.height-no.offsetHeight;
+      let nx,ny;
+      let overlap;
+      do{
+        nx=Math.random()*maxX;
+        ny=Math.random()*maxY;
+        overlap=!(nx+no.offsetWidth<yesBtn.left-area.left ||
+                  nx>yesBtn.right-area.left ||
+                  ny+no.offsetHeight<yesBtn.top-area.top ||
+                  ny>yesBtn.bottom-area.top);
+      }while(overlap);
+
+      no.style.left=nx+'px';
+      no.style.top=ny+'px';
+    }
+
+    no.addEventListener('mouseenter',moveNoButton);
+    no.addEventListener('mousemove',moveNoButton);
+    no.addEventListener('touchstart',moveNoButton);
+
+    yes.addEventListener('click',()=>{
+      alert('yeayyy!!!! sekarang kita resmi pacaran 💞');
+      backdrop.classList.remove('show');
+    });
+  </script>
+</body>
+</html>
